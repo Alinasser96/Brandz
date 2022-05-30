@@ -18,11 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hamalawey.brandz.R
 import com.hamalawey.brandz.databinding.FragmentBrandBinding
-import com.hamalawey.brandz.utils.getConfig
-import com.hamalawey.brandz.utils.overrideFonts
 import com.hamalawey.domain.entities.brand.Item
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_brand.*
 import kotlinx.coroutines.launch
 
 
@@ -33,8 +30,6 @@ class BrandFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: BrandsViewModel by viewModels()
     private lateinit var adapter: BrandsAdapter
-    private lateinit var font: String
-    private var color: Int = 0
     private var pageIndex = 1
     private var isLastPage: Boolean = false
     private var isLoading: Boolean = false
@@ -52,10 +47,6 @@ class BrandFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        font = getConfig(requireContext()).font_family
-        color = getConfig(requireContext()).app_color.toInt()
-        overrideFonts(requireContext(), view, font)
 
         setupRecyclerView(view)
 
@@ -89,7 +80,7 @@ class BrandFragment : Fragment() {
     }
 
     private fun setupRecyclerView(view: View) {
-        adapter = BrandsAdapter(font, color) {
+        adapter = BrandsAdapter {
             val bundle = Bundle()
             bundle.putInt("itemId", it)
             Navigation.findNavController(view)

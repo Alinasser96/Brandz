@@ -23,18 +23,3 @@ fun getConfig(context: Context): ConfigModel {
     val configModel = object : TypeToken<ConfigModel>() {}.type
     return Gson().fromJson(jsonString, configModel)
 }
-
-fun overrideFonts(context: Context, v: View, font: String) {
-    val finalFont = font.replace('-','_') + ".ttf"
-    try {
-        if (v is ViewGroup) {
-            for (i in 0 until v.childCount) {
-                val child = v.getChildAt(i)
-                overrideFonts(context, child, font)
-            }
-        } else if (v is TextView) {
-            v.typeface = Typeface.createFromAsset(context.assets, finalFont)
-        }
-    } catch (e: Exception) {
-    }
-}
